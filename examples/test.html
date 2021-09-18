@@ -1,0 +1,100 @@
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>test</title>
+</head>
+<body>
+<input type="button" value="画线段" onclick="drawLine()">
+<input type="button" value="画点">
+<canvas id="canvas" style="border: 1px solid red; position:absolute;">
+  浏览器不兼容
+</canvas>
+<style>
+  *{
+    margin:0;
+    padding:0;
+  }
+</style>
+<script>
+  let canvas = document.getElementById('canvas')
+  canvas.width = 500
+  canvas.height = 500
+  let ctx = canvas.getContext('2d')
+  let flag = false
+  let points = []
+  let previousX = -1, previousY = -1
+  function drawLine () {
+    flag = !flag
+  }
+  canvas.onmousedown = (e) => {
+    if (flag) {
+      points.push([e.offsetX, e.offsetY])
+      if (previousX === -1 && previousY === -1)
+      {
+        previousX = e.offsetX
+        previousY = e.offsetY
+        return
+      }
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'red';
+      ctx.moveTo(previousX, previousY);
+      ctx.lineTo(e.offsetX, e.offsetY);
+      previousX = e.offsetX
+      previousY = e.offsetY
+      ctx.lineCap = 'round';
+      ctx.stroke();
+      ctx.closePath();
+      // console.log(points)
+    } else { // 判断点是否在线段上面
+      console.log(pointInSegments([e.offsetX, e.offsetY], points))
+    }
+  }
+  function pointInSegments (p, segments) {
+    for (let i = 1; i < segments.length; i++ ){
+      let pi = segments[i-1]
+      let pj = segments[i]
+      if (onSegment(pi, pj, p)) {
+        return [pi, pj]
+      }
+    }
+    return null
+  }
+  function onSegment (p1, p2, q){
+    console.log(p1,p2,q)
+    p1 = {x: p1[0], y: p1[1]}
+    p2 = {x: p2[0], y: p2[1]}
+    q = {x: q[0], y: q[1]}
+    let k1 = ((p2.y - p1.y)/(p2.x-p1.x)).toFixed(3)
+    let k2 = ((q.y-p1.y)/(q.x-p1.x)).toFixed(3)
+    let error = Math.abs(k2 - k1)
+    if (error - 0.1 <= Number.EPSILON) {
+      return [p1,p2]
+    } else {
+      return null
+    }
+  }
+
+
+
+
+
+
+function onSegment_(Pi ,Pj ,Q)
+{
+    if((Q.x - Pi.x) * (Pj.y - Pi.y) == (Pj.x - Pi.x) * (Q.y - Pi.y)  //叉乘 
+       //保证Q点坐标在pi,pj之间 
+       && min(Pi.x , Pj.x) <= Q.x && Q.x <= max(Pi.x , Pj.x)    
+       && min(Pi.y , Pj.y) <= Q.y && Q.y <= max(Pi.y , Pj.y)){
+
+        return true;
+    }
+    else{
+
+        return false;
+    }
+}
+</script>
+</body>
+</html>
