@@ -18,13 +18,13 @@ graph.addNode(2,{x:20,y:20,label:"2222222"});
 // graph.addNode(4,{x:-200,y:200});
 graph.addEdge(1,2);
 graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
 
 // graph.addNode(1,{x:0,y:0});
 // let data = graph.getNodeAttributes(1)

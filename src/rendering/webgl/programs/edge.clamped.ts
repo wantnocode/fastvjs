@@ -140,7 +140,7 @@ export default class EdgeClampedProgram extends AbstractEdgeProgram {
     let len = dx * dx + dy * dy,
       n1 = 0,
       n2 = 0;
-
+    console.log(len)
     if (len) {
       len = 1 / Math.sqrt(len);
       n1 = -dy * len;
@@ -188,6 +188,7 @@ export default class EdgeClampedProgram extends AbstractEdgeProgram {
     array[i++] = thickness;
     array[i++] = color;
     array[i] = -radius;
+    // console.log(array)
   }
 
   computeIndices(): void {
@@ -205,7 +206,7 @@ export default class EdgeClampedProgram extends AbstractEdgeProgram {
     }
 
     this.indicesArray = indices;
-    // console.log(this.indicesArray)
+    console.log(this.indicesArray)
     
   }
 

@@ -75,7 +75,7 @@ const entry = {};
 const plugins = [
   new HtmlWebpackPlugin({
     filename: "index.html",
-    title: "Sigma.js - Examples",
+    title: "fastv.js - Examples",
     template: path.join(__dirname, "templates", "index.ejs"),
     pages: Object.keys(EXAMPLES).map((key) => EXAMPLES[key]),
     chunks: [],
@@ -90,7 +90,7 @@ for (const key in EXAMPLES) {
   plugins.push(
     new HtmlWebpackPlugin({
       filename: `${example.id}.html`,
-      title: `Sigma.js - ${example.title} Example`,
+      title: `fastv.js - ${example.title} Example`,
       chunks: ["commons", key],
       template: path.join(__dirname, "templates", "default.ejs"),
     }),

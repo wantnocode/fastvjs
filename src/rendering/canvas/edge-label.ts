@@ -29,13 +29,33 @@ export default function drawEdgeLabel(
     var cy = (sourceData.y + targetData.y) / 2;
   }else{
 
-    if(edgeData.index % 2 == 0){
-      var cx = (sourceData.x + targetData.x) / 2 + (targetData.y - sourceData.y) / (edgeData.index + 9);
-      var cy = (sourceData.y + targetData.y) / 2 + (sourceData.x - targetData.x) / (edgeData.index + 9);
+    if(edgeData.index % 2 != 0){
+      var cx = (sourceData.x + targetData.x) / 2 + (targetData.y - sourceData.y) / (edgeData.index + 7);
+      var cy = (sourceData.y + targetData.y) / 2 + (sourceData.x - targetData.x) / (edgeData.index + 7);
     }else{
       var cx = (sourceData.x + targetData.x) / 2 + (targetData.y - sourceData.y) / -(edgeData.index + 9);
       var cy = (sourceData.y + targetData.y) / 2 + (sourceData.x - targetData.x) / -(edgeData.index + 9);
     }
+
+
+
+     // if(data.index % 2 == 0){
+     //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+     //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
+     //    array[i++] = color;
+     //    // middle
+     //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+     //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
+     //    array[i++] = color;
+     //  }else{
+     //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+     //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / -(data.index + 8);
+     //    array[i++] = color;
+     //    // middle
+     //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+     //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / -(data.index + 8);
+     //    array[i++] = color;
+     //  }
   }
   // array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 4);
     // array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 4);

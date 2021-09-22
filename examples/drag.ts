@@ -29,16 +29,26 @@ function onSegment (p1, p2, q, index){
     // if x || y 为0 需要考虑
     let k1:any = ((p2.y - p1.y)/(p2.x-p1.x)).toFixed(3)
     let k2:any = ((q.y-p1.y)/(q.x-p1.x)).toFixed(3)
-    q.x - p1.x + q.y - p1.y
+    let diff:number = Math.abs(k2 * 1 - k1 * 1) - 0.1;
+    // 计算斜率
+    // let diff:number = Math.abs(k2 * 1 ) - Math.abs( k1 * 1) - 0.1;
+
+
+    //q.x - p1.x + q.y - p1.y
     var q_p1 = Math.sqrt(Math.abs(q.x - p1.x) * Math.abs(q.x - p1.x) +  Math.abs(q.y - p1.y) * Math.abs(q.y - p1.y));
     var q_p2 = Math.sqrt(Math.abs(q.x - p2.x) * Math.abs(q.x - p2.x) +  Math.abs(q.y - p2.y) * Math.abs(q.y - p2.y));
     var p1_p2 = Math.sqrt(Math.abs(p1.x - p2.x) * Math.abs(p1.x - p2.x) +  Math.abs(p1.y - p2.y) * Math.abs(p1.y - p2.y));
     var len = q_p1 + q_p2 > p1_p2 - 0.01 && q_p1 + q_p2 < p1_p2 + 0.01;
 
-    let diff:number = Math.abs(k2 * 1 - k1 *1) - 0.1;
+    console.log(diff <= Number.EPSILON)
+    console.log(p1,p2,q)
+    // if(index > 0){
+    //   return diff <= Number.EPSILON
+    // }
     if(!len){
       return false;
     }
+    
     // source-target direction
     if(p2.y - p1.y < 0 && p2.x - p1.x < 0){
       // source-target 左上角
@@ -71,87 +81,87 @@ function onSegment (p1, p2, q, index){
 
 const graph = new MultiGraph();
 
-nodes.map(node=>{
-// console.log(node.fill)
-let node_ = node.attributes;
-graph.addNode(node.key,{
-    x:node_.x * 1,
-    y:node_.y * 1,
-    color:node_.fill,
-    index:0,
-    size:60,
-    // label:node_.text,
-    icon:node_.icon
-  })
-})
+// nodes.map(node=>{
+// // console.log(node.fill)
+// let node_ = node.attributes;
+// graph.addNode(node.key,{
+//     x:node_.x * 1,
+//     y:node_.y * 1,
+//     color:node_.fill,
+//     index:0,
+//     size:60,
+//     // label:node_.text,
+//     icon:node_.icon
+//   })
+// })
 
-links.map(link=>{
-  if(link.attributes.index < 5){
-    graph.addEdge(link.source,link.target,{
-      label: link.attributes.label,
-      color: link.attributes.color,
-      index:link.attributes.index,
-      size: 1
-    })
-  }
-})
+// links.map(link=>{
+//   if(link.attributes.index < 5){
+//     graph.addEdge(link.source,link.target,{
+//       label: link.attributes.label,
+//       color: link.attributes.color,
+//       index:link.attributes.index,
+//       size: 1
+//     })
+//   }
+// })
 
-var color = chroma.random().hex();
-console.log(chroma.random().hex())
-graph.nodes().forEach((node) => {
-  // console.log(node)
-  // let node_attrbutes = graph.getNodeAttributes(node);
-  graph.mergeNodeAttributes(node, {
-    label: "交易卡号:6229289312301313",
-    // size: Math.max(4, Math.random() * 10),
-    size: 2,
-    // color: "#000",
-  });
-});
-window.addEventListener("message",function(e){
-  let data = e.data;
-  let type = data.type;
-  if(type == 1){
+// var color = chroma.random().hex();
 
-  }
-})
-
-
-// graph.addNode(1,{x:20,y:0,label:"1111111"});
-// graph.addNode(2,{x:20,y:20,label:"2222222"});
-// // graph.addNode(3,{x:-100,y:50});
-// // graph.addNode(4,{x:-200,y:200});
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-
-// // graph.addNode(1,{x:0,y:0});
-// // let data = graph.getNodeAttributes(1)
-// // console.log(data)
 // graph.nodes().forEach((node) => {
+//   // console.log(node)
+//   // let node_attrbutes = graph.getNodeAttributes(node);
 //   graph.mergeNodeAttributes(node, {
-//     // label: getRandomName(),
-//     label:"11111\n22222",
-//     // index:1,
-//     size: Math.max(4, Math.random() * 10),
-//     color: chroma.random().hex(),
+//     label: "交易卡号:6229289312301313",
+//     // size: Math.max(4, Math.random() * 10),
+//     size: 2,
+//     // color: "#000",
 //   });
 // });
-// graph.edges().forEach((edge,index)=>{
-//   // console.log(edge)
-//   graph.mergeEdgeAttributes(edge, {
-//       // type: 'bezier',
-//       key:index, 
-//       index:index,
-//       color:"red",
-//       label:edge,
-      
-//   });
+// window.addEventListener("message",function(e){
+//   let data = e.data;
+//   let type = data.type;
+//   if(type == 1){
+
+//   }
 // })
+
+
+graph.addNode(1,{x:20,y:0,label:"1111111"});
+graph.addNode(2,{x:20,y:20,label:"2222222"});
+// graph.addNode(3,{x:-100,y:50});
+// graph.addNode(4,{x:-200,y:200});
+graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+
+// graph.addNode(1,{x:0,y:0});
+// let data = graph.getNodeAttributes(1)
+// console.log(data)
+graph.nodes().forEach((node) => {
+  graph.mergeNodeAttributes(node, {
+    // label: getRandomName(),
+    label:"11111\n22222",
+    // index:1,
+    size: Math.max(4, Math.random() * 10),
+    color: chroma.random().hex(),
+  });
+});
+graph.edges().forEach((edge,index)=>{
+  // console.log(edge)
+  graph.mergeEdgeAttributes(edge, {
+      // type: 'bezier',
+      key:index, 
+      index:1,
+      color:"red",
+      label:edge,
+      
+  });
+})
 
 
 
@@ -222,29 +232,50 @@ renderer.on("clickStage", ({ event }) => {
     graph.edges().forEach(edge=>{
        let from = graph.source(edge);
        let to = graph.target(edge);
-      
+        
+       // from起点坐标
        let p = renderer.graphToViewport({x:graph.getNodeAttributes(from).x,y:graph.getNodeAttributes(from).y});
+       // to终点坐标
        let p1 = renderer.graphToViewport({x:graph.getNodeAttributes(to).x,y:graph.getNodeAttributes(to).y})
-       let p2 = event;
+       // 事件坐标
+       let p_event = event;
        let index = graph.getEdgeAttribute(edge, 'index');
        let isOnLink = false;
-       if(index == 0){
-         isOnLink = onSegment(p,p1,p2,index);
-       }else{
-         if(index % 2 == 0){
-            let p_p1 = (p.x + p1.x) / 2 + (p1.y - p.y) / (index + 8);
 
+       if(index == 0){
+         isOnLink = onSegment(p,p1,p_event,index);
+       }else{
+         
+         if(index % 2 == 0){
+            let p_p1 = {
+              "x":(p.x + p1.x) / 2 + (p1.y - p.y) / (index + 8),
+              "y":(p.y + p1.y) / 2 + (p.x - p1.x) / (index + 8),
+            };
+            // console.log(p_p1)
             // array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
-            // array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
-            // array[i++] = color;
-            // middle
-            isOnLink = onSegment(p,p_p1,p2,index) && onSegment(p,p_p1,p2,index);
+            //array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
+            // console.log(onSegment(p,p_p1,p_event,index))
+            // console.log(onSegment(p_p1,p1,p_event,index))
+            // console.log(onSegment(p,p_p1,p_event,index))
+            // isOnLink = onSegment(p,p_p1,p_event,index) && onSegment(p,p_p1,p_event,index);
           }else{
-            let p_p1 = (p.x + p1.x) / 2 + (p1.y - p.y) / -(index + 8);
-            isOnLink = onSegment(p,p_p1,p2,index) && onSegment(p,p_p1,p2,index);
+
+            // let p_p1 = (p.x + p1.x) / 2 + (p1.y - p.y) / -(index + 8);
+            let p_p1 = {
+              "x":(p.x + p1.x) / 2 + (p1.y - p.y) / -(index + 8),
+              "y":(p.y + p1.y) / 2 + (p.x - p1.x) / -(index + 8),
+            };
+            // console.log(p,p1,p_event)
+            // console.log(p)
+            // console.log(p1)
+            // console.log(onSegment(p,p_p1,p_event,index))
+            // console.log(onSegment(p_p1,p1,p_event,index))
+            // isOnLink = onSegment(p,p_p1,p_event,index);
+            isOnLink = onSegment(p,p_p1,p_event,index) || onSegment(p_p1,p1,p_event,index);
+            // isOnLink = onSegment(p,p_p1,p_event,index) && onSegment(p,p_p1,p_event,index);
           }
        }
-       // console.log(onSegment_(p,p1,p2))
+       // console.log(onSegment_(p,p1,p_event))
        if(isOnLink){
           selectedEdges.add(edge);
           // console.log(selectedEdges)
