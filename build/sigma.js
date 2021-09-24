@@ -3804,14 +3804,31 @@ function drawEdgeLabel(context, edgeData, sourceData, targetData, settings) {
         var cy = (sourceData.y + targetData.y) / 2;
     }
     else {
-        if (edgeData.index % 2 == 0) {
-            var cx = (sourceData.x + targetData.x) / 2 + (targetData.y - sourceData.y) / (edgeData.index + 9);
-            var cy = (sourceData.y + targetData.y) / 2 + (sourceData.x - targetData.x) / (edgeData.index + 9);
+        if (edgeData.index % 2 != 0) {
+            var cx = (sourceData.x + targetData.x) / 2 + (targetData.y - sourceData.y) / (edgeData.index + 7);
+            var cy = (sourceData.y + targetData.y) / 2 + (sourceData.x - targetData.x) / (edgeData.index + 7);
         }
         else {
             var cx = (sourceData.x + targetData.x) / 2 + (targetData.y - sourceData.y) / -(edgeData.index + 9);
             var cy = (sourceData.y + targetData.y) / 2 + (sourceData.x - targetData.x) / -(edgeData.index + 9);
         }
+        // if(data.index % 2 == 0){
+        //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+        //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
+        //    array[i++] = color;
+        //    // middle
+        //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+        //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
+        //    array[i++] = color;
+        //  }else{
+        //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+        //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / -(data.index + 8);
+        //    array[i++] = color;
+        //    // middle
+        //    array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+        //    array[i++] = (y1 + y2) / 2 + (x1 - x2) / -(data.index + 8);
+        //    array[i++] = color;
+        //  }
     }
     // array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 4);
     // array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 4);
@@ -4492,6 +4509,7 @@ var EdgeFastProgram = /** @class */ (function (_super) {
         // Locations:
         _this.positionLocation = gl.getAttribLocation(_this.program, "a_position");
         _this.colorLocation = gl.getAttribLocation(_this.program, "a_color");
+        _this.thicknessLocation = gl.getAttribLocation(_this.program, "a_thickness");
         // Uniform locations:
         var matrixLocation = gl.getUniformLocation(_this.program, "u_matrix");
         if (matrixLocation === null)
@@ -4508,8 +4526,10 @@ var EdgeFastProgram = /** @class */ (function (_super) {
         // Bindings
         gl.enableVertexAttribArray(this.positionLocation);
         gl.enableVertexAttribArray(this.colorLocation);
+        gl.enableVertexAttribArray(this.thicknessLocation);
         gl.vertexAttribPointer(this.positionLocation, 2, gl.FLOAT, false, this.attributes * Float32Array.BYTES_PER_ELEMENT, 0);
         gl.vertexAttribPointer(this.colorLocation, 4, gl.UNSIGNED_BYTE, true, ATTRIBUTES * Float32Array.BYTES_PER_ELEMENT, 8);
+        gl.vertexAttribPointer(this.thicknessLocation, 1, gl.FLOAT, false, ATTRIBUTES * Float32Array.BYTES_PER_ELEMENT, 16);
         //gl.vertexAttribPointer(this.colorLocation, 1, gl.FLOAT, false, this.attributes * Float32Array.BYTES_PER_ELEMENT, 8);
     };
     EdgeFastProgram.prototype.computeIndices = function () {
@@ -4598,7 +4618,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("// attribute vec2 a_position;\n// attribute float a_color;\n\n// uniform vec2 u_resolution;\n// uniform mat3 u_matrix;\n\n// varying vec4 color;\n\n// void main() {\n//   // Scale from [[-1 1] [-1 1]] to the container:\n//   gl_Position = vec4(\n//     ((u_matrix * vec3(a_position, 1)).xy /\n//       u_resolution * 2.0 - 1.0) * vec2(1, -1),\n//     0,\n//     1\n//   );\n\n//   // Extract the color:\n//   float c = a_color;\n//   color.b = mod(c, 256.0); c = floor(c / 256.0);\n//   color.g = mod(c, 256.0); c = floor(c / 256.0);\n//   color.r = mod(c, 256.0); c = floor(c / 256.0); color /= 255.0;\n//   color.a = 1.0;\n// }\n\n\n\nattribute vec2 a_position;\nattribute vec4 a_color;\n\n// uniform vec2 u_resolution;\nuniform mat3 u_matrix;\n\nvarying vec4 v_color;\n\nvoid main() {\n  // Scale from [[-1 1] [-1 1]] to the container:\n  // gl_Position = vec4(\n  //   ((u_matrix * vec3(a_position, 1)).xy /\n  //     u_resolution * 2.0 - 1.0) * vec2(1, -1),\n  //   0,\n  //   1\n  // );\n  gl_Position = vec4(\n    (u_matrix * vec3(a_position, 1)).xy,\n    0,\n    1\n  );\n  // Extract the color:\n  // float c = a_color;\n  // v_color.b = mod(c, 256.0); c = floor(c / 256.0);\n  // v_color.g = mod(c, 256.0); c = floor(c / 256.0);\n  // v_color.r = mod(c, 256.0); c = floor(c / 256.0); v_color /= 255.0;\n  // v_color.a = 1.0;\n  v_color = a_color;\n}\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("// attribute vec2 a_position;\n// attribute float a_color;\n\n// uniform vec2 u_resolution;\n// uniform mat3 u_matrix;\n\n// varying vec4 color;\n\n// void main() {\n//   // Scale from [[-1 1] [-1 1]] to the container:\n//   gl_Position = vec4(\n//     ((u_matrix * vec3(a_position, 1)).xy /\n//       u_resolution * 2.0 - 1.0) * vec2(1, -1),\n//     0,\n//     1\n//   );\n\n//   // Extract the color:\n//   float c = a_color;\n//   color.b = mod(c, 256.0); c = floor(c / 256.0);\n//   color.g = mod(c, 256.0); c = floor(c / 256.0);\n//   color.r = mod(c, 256.0); c = floor(c / 256.0); color /= 255.0;\n//   color.a = 1.0;\n// }\n\n\n\nattribute vec2 a_position;\nattribute vec4 a_color;\nattribute float a_thickness;\n// uniform vec2 u_resolution;\nuniform mat3 u_matrix;\n\nvarying vec4 v_color;\n\nvoid main() {\n  // Scale from [[-1 1] [-1 1]] to the container:\n  // gl_Position = vec4(\n  //   ((u_matrix * vec3(a_position, 1)).xy /\n  //     u_resolution * 2.0 - 1.0) * vec2(1, -1),\n  //   0,\n  //   1\n  // );\n  gl_Position = vec4(\n    (u_matrix * vec3(a_position, 1)).xy,\n    0,\n    1\n  );\n  // Extract the color:\n  // float c = a_color;\n  // v_color.b = mod(c, 256.0); c = floor(c / 256.0);\n  // v_color.g = mod(c, 256.0); c = floor(c / 256.0);\n  // v_color.r = mod(c, 256.0); c = floor(c / 256.0); v_color /= 255.0;\n  // v_color.a = 1.0;\n  v_color = a_color;\n}\n");
 
 /***/ }),
 /* 33 */

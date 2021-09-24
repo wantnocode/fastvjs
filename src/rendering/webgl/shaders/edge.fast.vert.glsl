@@ -27,7 +27,7 @@
 
 attribute vec2 a_position;
 attribute vec4 a_color;
-
+attribute float a_thickness;
 // uniform vec2 u_resolution;
 uniform mat3 u_matrix;
 

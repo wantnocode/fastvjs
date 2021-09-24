@@ -27,83 +27,23 @@ const container = document.getElementById("container");
 */
 function onSegment (p1, p2, q, index){
     // if x || y 为0 需要考虑
-    // a（x1，y1），b（x2，y2） a×b=x1y2-y1x2  求叉积
-    // p1.x * p2.y - p1.y * p2.x
-    // if(p2.y)
-
     let k1:any = ((p2.y - p1.y)/(p2.x-p1.x)).toFixed(3);
     let k2:any = ((q.y-p1.y)/(q.x-p1.x)).toFixed(3);
-    let diff:number = Math.abs(k2 * 1 - k1 * 1) - 0.1;
-    console.log(k1,k2)
-    let space = Math.sqrt(
-      Math.abs((p2.y - p1.y)) * Math.abs((p2.y - p1.y)) 
-      + Math.abs((p2.x - p1.x)) * Math.abs((p2.x - p2.x))
-    );
-    let space_ = Math.sqrt(
-      Math.abs((q.y - p1.y)) * Math.abs((q.y - p1.y)) 
-      + Math.abs((q.x - p1.x)) * Math.abs((q.x - p2.x))
-    );
-    let _space = Math.sqrt(
-      Math.abs((p2.y - q.y)) * Math.abs((p2.y - q.y)) 
-      + Math.abs((p2.x - q.x)) * Math.abs((p2.x - q.x))
-    );
 
-    // 距离  + 比例问题
+    let diff:number = Math.abs(k2 * 1 - k1 * 1) - (camera.ratio < 0.3 ? camera.ratio * 2 : camera.ratio) * 0.1;
+
+    // space
     if(diff <= Number.EPSILON){
-      console.log(camera.ratio)
-      console.log(space_,space,_space)
-      // / camera.ratio
-      // console.log(space_ + _space, space - 100 , space_ + _space, space + 100)
-       if(space_ + _space > space - 100 && space_ + _space < space + 100){
-         return true
+      
+       if((p1.x < q.x && p2.x < q.x) 
+         || (p1.y < q.y && p2.y < q.y) 
+         || (p1.x > q.x && p2.x > q.x) 
+         || (p1.y > q.y && p2.y > q.y)){
+         return false;
        }
+       return true;
+      // }
     }
-    //  测试
-      // (p2.y - p1.y) * (p2.y - p1.y) + (p2.x - p1.x) * (p2.x - p2.x)
-
-    //
-
-    // 计算斜率
-    // let diff:number = Math.abs(k2 * 1 ) - Math.abs( k1 * 1) - 0.1;
-
-     // console.log(diff <= Number.EPSILON)
-    //q.x - p1.x + q.y - p1.y
-    // var q_p1 = Math.sqrt(Math.abs(q.x - p1.x) * Math.abs(q.x - p1.x) +  Math.abs(q.y - p1.y) * Math.abs(q.y - p1.y));
-    // var q_p2 = Math.sqrt(Math.abs(q.x - p2.x) * Math.abs(q.x - p2.x) +  Math.abs(q.y - p2.y) * Math.abs(q.y - p2.y));
-    // var p1_p2 = Math.sqrt(Math.abs(p1.x - p2.x) * Math.abs(p1.x - p2.x) +  Math.abs(p1.y - p2.y) * Math.abs(p1.y - p2.y));
-    // var len = q_p1 + q_p2 > p1_p2 - 0.01 && q_p1 + q_p2 < p1_p2 + 0.01;
-
-    // if(!len){
-    //   return false;
-    // }
-
-    // // source-target direction
-    // if(p2.y - p1.y < 0 && p2.x - p1.x < 0){
-    //   // source-target 左上角
-
-    //   if(diff <= Number.EPSILON  && q.x < p1.x && q.y < p1.y && q.x > p2.x && q.y > p2.y){
-    //       return true
-    //   }
-    // }
-    // if(p2.y - p1.y < 0 && p2.x - p1.x > 0){
-    //   // 右上角
-    //   if(diff <= Number.EPSILON && q.x > p1.x && q.y < p1.y && q.x < p2.x && q.y > p2.y){
-    //       return true
-    //   }
-    // }
-    // if(p2.y - p1.y > 0 && p2.x - p1.x < 0){
-    //   // 左下角 
-    //   if(diff <= Number.EPSILON && q.x < p1.x && q.y > p1.y && q.x > p2.x && q.y < p2.y){
-    //       return true
-    //   }
-    // }
-    // if(p2.y - p1.y > 0 && p2.x - p1.x > 0){
-    //   // 右下角 
-    //   if(diff <= Number.EPSILON && q.x > p1.x && q.y > p1.y && q.x < p2.x && q.y < p2.y){
-    //       return true
-    //   }
-    // }
-
 }
 
 
@@ -137,7 +77,6 @@ const graph = new MultiGraph();
 // var color = chroma.random().hex();
 
 // graph.nodes().forEach((node) => {
-//   // console.log(node)
 //   // let node_attrbutes = graph.getNodeAttributes(node);
 //   graph.mergeNodeAttributes(node, {
 //     label: "交易卡号:6229289312301313",
@@ -155,13 +94,13 @@ const graph = new MultiGraph();
 // })
 
 
-graph.addNode(1,{x:20,y:0,label:"1111111"});
-graph.addNode(2,{x:30,y:20,label:"2222222"});
+graph.addNode(1,{x:20,y:20,label:"1111111"});
+graph.addNode(2,{x:30,y:0,label:"2222222"});
 // graph.addNode(3,{x:-100,y:50});
 // graph.addNode(4,{x:-200,y:200});
 graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
+graph.addEdge(1,2);
+graph.addEdge(1,2);
 // graph.addEdge(1,2);
 // graph.addEdge(1,2);
 // graph.addEdge(1,2);
@@ -183,6 +122,7 @@ graph.edges().forEach((edge,index)=>{
   // console.log(edge)
   graph.mergeEdgeAttributes(edge, {
       // type: 'bezier',
+      // size:10,
       key:index, 
       index:index,
       color:"red",
@@ -280,12 +220,7 @@ renderer.on("clickStage", ({ event }) => {
               "x":(p.x + p1.x) / 2 + (p1.y - p.y) / -(index + 8),
               "y":(p.y + p1.y) / 2 + (p.x - p1.x) / -(index + 8),
             };
-            // console.log(p_p1)
-            // array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
-            //array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
-            // console.log(onSegment(p,p_p1,p_event,index))
-            // console.log(onSegment(p_p1,p1,p_event,index))
-            // console.log(onSegment(p,p_p1,p_event,index))
+            
             // isOnLink = onSegment(p,p_p1,p_event,index) 
             isOnLink = onSegment(p,p_p1,p_event,index) || onSegment(p_p1,p1,p_event,index);
           }else{
@@ -295,15 +230,10 @@ renderer.on("clickStage", ({ event }) => {
               "x":(p.x + p1.x) / 2 + (p1.y - p.y) / (index + 8),
               "y":(p.y + p1.y) / 2 + (p.x - p1.x) / (index + 8),
             };
-            // console.log(p,p1,p_event)
-            // console.log(p)
-            // console.log(p1)
-            // console.log(onSegment(p,p_p1,p_event,index))
-            // console.log(onSegment(p_p1,p1,p_event,index))
+            
             // isOnLink = onSegment(p,p_p1,p_event,index);
             // console.log(onSegment(p_p1,p1,p_event,index))
             isOnLink = onSegment(p,p_p1,p_event,index) || onSegment(p_p1,p1,p_event,index);
-            // || onSegment(p_p1,p1,p_event,index);
             // isOnLink = onSegment(p,p_p1,p_event,index) && onSegment(p,p_p1,p_event,index);
           }
        }

@@ -19,6 +19,7 @@ export default class EdgeFastProgram extends AbstractEdgeProgram {
   positionLocation: GLint;
   colorLocation: GLint;
   matrixLocation: WebGLUniformLocation;
+  thicknessLocation: GLint;
   // resolutionLocation: WebGLUniformLocation;
 
   constructor(gl: WebGLRenderingContext) {
@@ -27,6 +28,7 @@ export default class EdgeFastProgram extends AbstractEdgeProgram {
     // Locations:
     this.positionLocation = gl.getAttribLocation(this.program, "a_position");
     this.colorLocation = gl.getAttribLocation(this.program, "a_color");
+    this.thicknessLocation = gl.getAttribLocation(this.program, "a_thickness");
 
     // Uniform locations:
     const matrixLocation = gl.getUniformLocation(this.program, "u_matrix");
@@ -46,6 +48,7 @@ export default class EdgeFastProgram extends AbstractEdgeProgram {
     // Bindings
     gl.enableVertexAttribArray(this.positionLocation);
     gl.enableVertexAttribArray(this.colorLocation);
+    gl.enableVertexAttribArray(this.thicknessLocation);
 
     gl.vertexAttribPointer(
       this.positionLocation,
@@ -63,6 +66,7 @@ export default class EdgeFastProgram extends AbstractEdgeProgram {
       ATTRIBUTES * Float32Array.BYTES_PER_ELEMENT,
       8,
     );
+    gl.vertexAttribPointer(this.thicknessLocation, 1, gl.FLOAT, false, ATTRIBUTES * Float32Array.BYTES_PER_ELEMENT, 16);
     //gl.vertexAttribPointer(this.colorLocation, 1, gl.FLOAT, false, this.attributes * Float32Array.BYTES_PER_ELEMENT, 8);
   }
 
