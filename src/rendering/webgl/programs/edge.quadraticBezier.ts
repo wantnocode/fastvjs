@@ -106,13 +106,22 @@ export default class EdgeQuadraticBezierProgram extends AbstractEdgeProgram {
     i = POINTS * ATTRIBUTES * offset;
 
     const array = this.array;
-    // const n_ = Math.ceil(data.index / 2) + 1;
-    // const _n = Math.ceil((data.index - 1) / 2) + 1;
-    // const offset_ = data.index % 2 == 0 ? n_ * 10 : -_n * 10;
+    
     // Control point
-    array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index % 2 == 0 ? -1 : 1);
-    array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index % 2 == 0 ? -1 : 1);
+    if(data.index == 0){
+      array[i++] = (x1 + x2) / 2 + (y2 - y1) / 4;
+      array[i++] = (y1 + y2) / 2 + (x1 - x2) / 4;
 
+    }else{
+      if(data.index % 2 == 0){
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = (y1 + y2) / 2 + (x1 - x2) / (data.index + 8);
+          
+      }else{
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = (y1 + y2) / 2 + (x1 - x2) / -(data.index + 8);
+      }
+    }
     // array[i++] = thickness;
     array[i++] = color;
     array[i++] = 0.5;

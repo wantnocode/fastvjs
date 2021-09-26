@@ -688,7 +688,8 @@ export default class Sigma extends EventEmitter {
 
     // Finding visible nodes to display their labels
     let visibleNodes: NodeKey[];
-
+    // console.log(cameraState.ratio)
+    // if (cameraState.ratio >= 1) {
     if (cameraState.ratio >= 1) {
       // Camera is unzoomed so no need to ask the quadtree for visible nodes
       visibleNodes = this.graph.nodes();
@@ -733,24 +734,26 @@ export default class Sigma extends EventEmitter {
       // TODO: we can cache the labels we need to render until the camera's ratio changes
       // TODO: this should be computed in the canvas components?
       const size = data.size / sizeRatio;
-
+      // console.log(size)
       // 当视口分辨率很低的时候没必要显示
-      // if(size < 5)return;
-      this.settings.labelRenderer(
-        context,
-        {
-          key: labelsToDisplay[i],
-          label: data.label,
-          color: "#000",
-          size,
-          sizeRatio,
-          x,
-          y,
-          icon:data.icon,
-        },
-        this.settings,
-        // data.icon
-      );
+      if(data.size / sizeRatio > 5){
+        
+        this.settings.labelRenderer(
+          context,
+          {
+            key: labelsToDisplay[i],
+            label: data.label,
+            color: "#000",
+            size,
+            sizeRatio,
+            x,
+            y,
+            icon:data.icon,
+          },
+          this.settings,
+          // data.icon
+        );
+      }
     }
 
     // Caching visible nodes and displayed labels

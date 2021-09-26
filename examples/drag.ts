@@ -49,87 +49,87 @@ function onSegment (p1, p2, q, index){
 
 const graph = new MultiGraph();
 
-// nodes.map(node=>{
-// // console.log(node.fill)
-// let node_ = node.attributes;
-// graph.addNode(node.key,{
-//     x:node_.x * 1,
-//     y:node_.y * 1,
-//     color:node_.fill,
-//     index:0,
-//     size:60,
-//     // label:node_.text,
-//     icon:node_.icon
-//   })
-// })
+nodes.map(node=>{
+// console.log(node.fill)
+let node_ = node.attributes;
+graph.addNode(node.key,{
+    x:node_.x * 1,
+    y:node_.y * 1,
+    color:node_.fill,
+    index:0,
+    size:60,
+    // label:node_.text,
+    icon:node_.icon
+  })
+})
 
-// links.map(link=>{
-//   if(link.attributes.index < 5){
-//     graph.addEdge(link.source,link.target,{
-//       label: link.attributes.label,
-//       color: link.attributes.color,
-//       index:link.attributes.index,
-//       size: 1
-//     })
-//   }
-// })
+links.map(link=>{
+  if(link.attributes.index < 5){
+    graph.addEdge(link.source,link.target,{
+      label: link.attributes.label,
+      color: link.attributes.color,
+      index:link.attributes.index,
+      size: 1
+    })
+  }
+})
 
-// var color = chroma.random().hex();
+var color = chroma.random().hex();
 
-// graph.nodes().forEach((node) => {
-//   // let node_attrbutes = graph.getNodeAttributes(node);
-//   graph.mergeNodeAttributes(node, {
-//     label: "交易卡号:6229289312301313",
-//     // size: Math.max(4, Math.random() * 10),
-//     size: 2,
-//     // color: "#000",
-//   });
-// });
-// window.addEventListener("message",function(e){
-//   let data = e.data;
-//   let type = data.type;
-//   if(type == 1){
-
-//   }
-// })
-
-
-graph.addNode(1,{x:20,y:20,label:"1111111"});
-graph.addNode(2,{x:30,y:0,label:"2222222"});
-// graph.addNode(3,{x:-100,y:50});
-// graph.addNode(4,{x:-200,y:200});
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
-
-// graph.addNode(1,{x:0,y:0});
-// let data = graph.getNodeAttributes(1)
-// console.log(data)
 graph.nodes().forEach((node) => {
+  // let node_attrbutes = graph.getNodeAttributes(node);
   graph.mergeNodeAttributes(node, {
-    // label: getRandomName(),
-    label:"11111\n22222",
-    // index:1,
-    size: Math.max(4, Math.random() * 10),
-    color: chroma.random().hex(),
+    label: "交易卡号:6229289312301313",
+    // size: Math.max(4, Math.random() * 10),
+    size: 2,
+    // color: "#000",
   });
 });
-graph.edges().forEach((edge,index)=>{
-  // console.log(edge)
-  graph.mergeEdgeAttributes(edge, {
-      // type: 'bezier',
-      // size:10,
-      key:index, 
-      index:index,
-      color:"red",
-      label:edge,
-      
-  });
+window.addEventListener("message",function(e){
+  let data = e.data;
+  let type = data.type;
+  if(type == 1){
+
+  }
 })
+
+
+// graph.addNode(1,{x:20,y:20,label:"1111111"});
+// graph.addNode(2,{x:30,y:0,label:"2222222"});
+// // graph.addNode(3,{x:-100,y:50});
+// // graph.addNode(4,{x:-200,y:200});
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// graph.addEdge(1,2);
+// // graph.addEdge(1,2);
+// // graph.addEdge(1,2);
+// // graph.addEdge(1,2);
+// // graph.addEdge(1,2);
+
+// // graph.addNode(1,{x:0,y:0});
+// // let data = graph.getNodeAttributes(1)
+// // console.log(data)
+// graph.nodes().forEach((node) => {
+//   graph.mergeNodeAttributes(node, {
+//     // label: getRandomName(),
+//     label:"11111\n22222",
+//     // index:1,
+//     size: Math.max(4, Math.random() * 10),
+//     color: chroma.random().hex(),
+//   });
+// });
+// graph.edges().forEach((edge,index)=>{
+//   // console.log(edge)
+//   graph.mergeEdgeAttributes(edge, {
+//       // type: 'bezier',
+//       size:10,
+//       key:index, 
+//       index:index,
+//       color:"red",
+//       label:edge,
+      
+//   });
+// })
 
 
 
@@ -154,7 +154,7 @@ const nodeReducer = (node: NodeKey, data: NodeAttributes) => {
 
 const edgeReducer = (edge: EdgeKey, data: EdgeAttributes) => {
   if (highlighedEdges.has(edge)) return { ...data, color: "#f00", zIndex: 1 };
-  if (selectedEdges.has(edge)) return { ...data, color: "#f00", zIndex: 1 ,size:1};
+  if (selectedEdges.has(edge)) return { ...data, color: "#f00", zIndex: 1 };
 
   return data;
 };
@@ -162,6 +162,7 @@ const edgeReducer = (edge: EdgeKey, data: EdgeAttributes) => {
 const renderer = new Sigma(graph, container,{
   defaultEdgeType: "arrow",
   defaultEdgeColor: "#888",
+  defaultNodeType:"circle",
   nodeReducer,
   edgeReducer,
   renderEdgeLabels: true,

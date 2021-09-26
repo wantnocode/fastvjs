@@ -21,6 +21,12 @@ export default function drawLabel(
   const size = settings.labelSize,
     font = settings.labelFont,
     weight = settings.labelWeight;
+
+
+    // fill backgroud
+    // context.fillStyle = "#fff";
+    // context.fillRect(data.x - data.label.length / 2 - data.size, data.y + data.size,data.label.length * 12 * data.sizeRatio,20);
+
     context.fillStyle = "#000";
     context.font = `${weight} ${size}px ${font}`;
 
@@ -29,8 +35,7 @@ export default function drawLabel(
       // context.fillText(data.label, data.x + data.size + 3, data.y + size / 3);
       // 下
       // context.fillText(data.label, data.x, data.y + (size / 3 / data.sizeRatio));
-
-      context.fillText(data.label, data.x - data.label.length / 2 - data.size, data.y + data.size + 12);
+      context.fillText(data.label, data.x -  data.label.length * 4 , data.y + data.size + 14);
 
       if(data.icon != undefined){
         let img = new Image();

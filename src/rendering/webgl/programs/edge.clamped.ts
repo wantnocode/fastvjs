@@ -14,7 +14,7 @@ import { floatColor, canUse32BitsIndices } from "../../../utils";
 import vertexShaderSource from "../shaders/edge.clamped.vert.glsl";
 import fragmentShaderSource from "../shaders/edge.frag.glsl";
 
-const POINTS = 4,
+const POINTS = 8,
   ATTRIBUTES = 7,
   STRIDE = POINTS * ATTRIBUTES;
 
@@ -163,14 +163,128 @@ export default class EdgeClampedProgram extends AbstractEdgeProgram {
     // First point flipped
     array[i++] = x1;
     array[i++] = y1;
-    // array[i++] = (x1 + x2) / 2 + (y2 - y1) / 4;
-    // array[i++] = (y1 + y2) / 2 + (x1 - x2) / 4;
     array[i++] = -n1;
     array[i++] = -n2;
     array[i++] = thickness;
     array[i++] = color;
     array[i++] = 0;
 
+    
+
+    if(data.index == 0){
+          array[i++] = x1;
+          array[i++] = y1;
+          array[i++] = n1;
+          array[i++] = n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+          // First Control point flipped
+          array[i++] = x1;
+          array[i++] = y1;
+          array[i++] = -n1;
+          array[i++] = -n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+
+          // Second Control point
+          array[i++] = x1;
+          array[i++] = y1;
+          array[i++] = n1;
+          array[i++] = n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+          // Second Control point flipped
+          array[i++] = x1;
+          array[i++] = y1;
+          array[i++] = -n1;
+          array[i++] = -n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+    }else{
+      if(data.index % 2 == 0){
+          // First Control point
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = n1;
+          array[i++] = n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+          // First Control point flipped
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = -n1;
+          array[i++] = -n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+
+          // Second Control point
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = n1;
+          array[i++] = n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+          // Second Control point flipped
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / (data.index + 8);
+          array[i++] = -n1;
+          array[i++] = -n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+      }else{
+          // First Control point
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = n1;
+          array[i++] = n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+          // First Control point flipped
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = -n1;
+          array[i++] = -n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+
+          // Second Control point
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = n1;
+          array[i++] = n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+
+          // Second Control point flipped
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = (x1 + x2) / 2 + (y2 - y1) / -(data.index + 8);
+          array[i++] = -n1;
+          array[i++] = -n2;
+          array[i++] = thickness;
+          array[i++] = color;
+          array[i++] = 0;
+      }
+    }
     // Second point
     array[i++] = x2;
     array[i++] = y2;
