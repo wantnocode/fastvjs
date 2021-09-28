@@ -99,8 +99,8 @@ window.addEventListener("message",function(e){
 // // graph.addNode(3,{x:-100,y:50});
 // // graph.addNode(4,{x:-200,y:200});
 // graph.addEdge(1,2);
-// graph.addEdge(1,2);
-// graph.addEdge(1,2);
+// // graph.addEdge(1,2);
+// // graph.addEdge(1,2);
 // // graph.addEdge(1,2);
 // // graph.addEdge(1,2);
 // // graph.addEdge(1,2);

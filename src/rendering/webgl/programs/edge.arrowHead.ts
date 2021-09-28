@@ -145,7 +145,8 @@ export default class EdgeArrowHeadProgram extends AbstractEdgeProgram {
     let i = POINTS * ATTRIBUTES * offset;
 
     const array = this.array;
-
+    //(x,y) = (sin(a + N) * L,cos(a + N) * L)
+    // 旋转坐标
     // First point
     array[i++] = x2;
     array[i++] = y2;

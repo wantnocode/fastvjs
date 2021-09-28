@@ -3681,6 +3681,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 // img.src = "http://localhost:8000/account.svg";
 function drawLabel(context, data, settings) {
     var size = settings.labelSize, font = settings.labelFont, weight = settings.labelWeight;
+    // fill backgroud
+    // context.fillStyle = "#fff";
+    // context.fillRect(data.x - data.label.length / 2 - data.size, data.y + data.size,data.label.length * 12 * data.sizeRatio,20);
     context.fillStyle = "#000";
     context.font = weight + " " + size + "px " + font;
     // if(data.sizeRatio < 0.3){
@@ -3688,8 +3691,7 @@ function drawLabel(context, data, settings) {
     // context.fillText(data.label, data.x + data.size + 3, data.y + size / 3);
     // 下
     // context.fillText(data.label, data.x, data.y + (size / 3 / data.sizeRatio));
-    context.fillRect(data.x - data.label.length / 2, data.y + data.size + 12, 100, 100);
-    context.fillText(data.label, data.x - data.label.length / 2 - data.size, data.y + data.size + 12);
+    context.fillText(data.label, data.x - data.label.length * 4, data.y + data.size + 14);
     if (data.icon != undefined) {
         var img = new Image();
         img.src = "./img/icon/" + data.icon + ".svg";
@@ -4646,7 +4648,7 @@ var EdgeFastProgram = /** @class */ (function (_super) {
         array[i++] = y1;
         array[i++] = color;
         // console.log(data.index)
-        if (data.index == 0) {
+        if (data.index == undefined || data.index == 0) {
             array[i++] = x2;
             array[i++] = y2;
             array[i++] = color;
@@ -4855,6 +4857,8 @@ var EdgeArrowHeadProgram = /** @class */ (function (_super) {
         }
         var i = POINTS * ATTRIBUTES * offset;
         var array = this.array;
+        //(x,y) = (sin(a + N) * L,cos(a + N) * L)
+        // 旋转坐标
         // First point
         array[i++] = x2;
         array[i++] = y2;

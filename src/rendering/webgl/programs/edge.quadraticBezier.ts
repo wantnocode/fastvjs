@@ -122,6 +122,7 @@ export default class EdgeQuadraticBezierProgram extends AbstractEdgeProgram {
           array[i++] = (y1 + y2) / 2 + (x1 - x2) / -(data.index + 8);
       }
     }
+    
     // array[i++] = thickness;
     array[i++] = color;
     array[i++] = 0.5;

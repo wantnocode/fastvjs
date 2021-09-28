@@ -101,7 +101,7 @@ export default class EdgeFastProgram extends AbstractEdgeProgram {
     array[i++] = color;
     // console.log(data.index)
 
-    if(data.index == 0){
+    if(data.index == undefined || data.index == 0){
       array[i++] = x2;
       array[i++] = y2;
       array[i++] = color;
