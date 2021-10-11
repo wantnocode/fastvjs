@@ -132,7 +132,7 @@ module.exports = {
     },
   },
   devServer: {
-    host:"192.168.116.104",
+    // host:"192.168.117.205",
     port: 8000,
   },
 };
