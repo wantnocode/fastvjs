@@ -17,6 +17,7 @@ import CircleNodeProgram from "./rendering/webgl/programs/node.fast";
 import LineEdgeProgram from "./rendering/webgl/programs/edge";
 import FastEdgeProgram from "./rendering/webgl/programs/edge.fast";
 import ArrowEdgeProgram from "./rendering/webgl/programs/edge.arrow";
+import ArrowBezierEdgeProgram from "./rendering/webgl/programs/edge.arrow.bezier";
 // import TriangleEdgeProgram from "./rendering/webgl/programs/edge.triangle";
 import ClampEdgeProgram from "./rendering/webgl/programs/edge.clamped";
 // import TriangleEdgeProgram from "./rendering/webgl/programs/edge.triangle";
@@ -124,6 +125,6 @@ export const DEFAULT_SETTINGS: Settings = {
     line: LineEdgeProgram,
     // triangles:TriangleEdgeProgram,
     fast:FastEdgeProgram,
-    // bezier:BezierEdgeProgram,
+    bezier:ArrowBezierEdgeProgram,
   },
 };

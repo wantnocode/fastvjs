@@ -604,7 +604,9 @@ export default class Sigma extends EventEmitter {
       //   3. We apply our defaults, while running some vital checks
 
       let data = graph.getEdgeAttributes(edge) as EdgeAttributes;
-
+      this.normalizationFunction.applyTo(data.p0);
+      this.normalizationFunction.applyTo(data.p1);
+      // console.log(graph.getEdgeAttributes(edge))
       if (settings.edgeReducer) data = settings.edgeReducer(edge, data);
 
       // We shallow copy the data to avoid mutating both the graph and the reducer's result
@@ -615,8 +617,9 @@ export default class Sigma extends EventEmitter {
       const extremities = graph.extremities(edge),
         sourceData = this.nodeDataCache[extremities[0]] as NodeAttributes,
         targetData = this.nodeDataCache[extremities[1]] as NodeAttributes;
-
+        // console.log(sourceData)
       const hidden = data.hidden || sourceData.hidden || targetData.hidden;
+      //
       edgeProgram.process(sourceData, targetData, data, hidden, i);
 
       this.nodeKeyToIndex[edge] = i;
@@ -737,7 +740,7 @@ export default class Sigma extends EventEmitter {
       // console.log(size)
       // 当视口分辨率很低的时候没必要显示
       if(data.size / sizeRatio > 5){
-        
+
         this.settings.labelRenderer(
           context,
           {

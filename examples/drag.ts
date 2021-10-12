@@ -48,30 +48,32 @@ function onSegment (p1, p2, q, index){
 
 
 const graph = new MultiGraph();
-
+// console.log(nodes)
 nodes.map(node=>{
 // console.log(node.fill)
 let node_ = node.attributes;
-graph.addNode(node.key,{
-    x:node_.x * 1,
-    y:node_.y * 1,
-    color:node_.fill,
+graph.addNode(node.id,{
+    x:node.x * 1,
+    y:node.y * 1,
+    // color:node_.fill,
     index:0,
     size:60,
     // label:node_.text,
-    icon:node_.icon
+    // icon:node_.icon
   })
 })
 
 links.map(link=>{
-  if(link.attributes.index < 5){
-    graph.addEdge(link.source,link.target,{
-      label: link.attributes.label,
-      color: link.attributes.color,
-      index:link.attributes.index,
+  // if(link.attributes.index < 5){
+    graph.addEdge(link.from,link.to,{
+      // label: link.attributes.label,
+      // color: link.attributes.color,
+      // index:link.attributes.index,
+      p0:link.P0Position,
+      p1:link.P1Position,
       size: 1
     })
-  }
+  // }
 })
 
 var color = chroma.random().hex();
@@ -85,6 +87,8 @@ graph.nodes().forEach((node) => {
     // color: "#000",
   });
 });
+
+
 window.addEventListener("message",function(e){
   let data = e.data;
   let type = data.type;
@@ -160,7 +164,7 @@ const edgeReducer = (edge: EdgeKey, data: EdgeAttributes) => {
 };
 
 const renderer = new Sigma(graph, container,{
-  defaultEdgeType: "arrow",
+  defaultEdgeType: "fast",
   defaultEdgeColor: "#888",
   defaultNodeType:"circle",
   nodeReducer,
