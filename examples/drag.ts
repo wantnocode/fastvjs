@@ -33,8 +33,8 @@ function onSegment (p1, p2, q, index){
     let diff:number = Math.abs(k2 * 1 - k1 * 1) - (camera.ratio < 0.3 ? camera.ratio * 2 : camera.ratio) * 0.1;
 
     // space
+       // console.log(p1,p2,diff)
     if(diff <= Number.EPSILON){
-      
        if((p1.x < q.x && p2.x < q.x) 
          || (p1.y < q.y && p2.y < q.y) 
          || (p1.x > q.x && p2.x > q.x) 
@@ -48,13 +48,13 @@ function onSegment (p1, p2, q, index){
 
 
 const graph = new MultiGraph();
-// console.log(nodes)
+console.log(nodes)
 nodes.map(node=>{
 // console.log(node.fill)
 let node_ = node.attributes;
-graph.addNode(node.id,{
-    x:node.x * 1,
-    y:node.y * 1,
+graph.addNode(node.key,{
+    x:node_.x * 1,
+    y:node_.y * 1,
     // color:node_.fill,
     index:0,
     size:60,
@@ -65,12 +65,12 @@ graph.addNode(node.id,{
 
 links.map(link=>{
   // if(link.attributes.index < 5){
-    graph.addEdge(link.from,link.to,{
-      // label: link.attributes.label,
-      // color: link.attributes.color,
-      // index:link.attributes.index,
-      p0:link.P0Position,
-      p1:link.P1Position,
+    graph.addEdge(link.source,link.target,{
+      label: link.attributes.label,
+      color: link.attributes.color,
+      index:link.attributes.index,
+      p0:{},
+      p1:{},
       size: 1
     })
   // }
@@ -89,13 +89,7 @@ graph.nodes().forEach((node) => {
 });
 
 
-window.addEventListener("message",function(e){
-  let data = e.data;
-  let type = data.type;
-  if(type == 1){
 
-  }
-})
 
 
 // graph.addNode(1,{x:20,y:20,label:"1111111"});
@@ -118,7 +112,7 @@ window.addEventListener("message",function(e){
 //     // label: getRandomName(),
 //     label:"11111\n22222",
 //     // index:1,
-//     size: Math.max(4, Math.random() * 10),
+//     size: 20,
 //     color: chroma.random().hex(),
 //   });
 // });
@@ -126,7 +120,7 @@ window.addEventListener("message",function(e){
 //   // console.log(edge)
 //   graph.mergeEdgeAttributes(edge, {
 //       // type: 'bezier',
-//       size:10,
+//       size:5,
 //       key:index, 
 //       index:index,
 //       color:"red",
@@ -164,7 +158,7 @@ const edgeReducer = (edge: EdgeKey, data: EdgeAttributes) => {
 };
 
 const renderer = new Sigma(graph, container,{
-  defaultEdgeType: "fast",
+  defaultEdgeType: "arrow",
   defaultEdgeColor: "#888",
   defaultNodeType:"circle",
   nodeReducer,
@@ -197,7 +191,7 @@ renderer.on("clickNode", ({ node, captor, event }) => {
   完善多边点击
  */
 renderer.on("clickStage", ({ event }) => {
-  // console.log("Clicking the stage.", event);
+  console.log("Clicking the stage.", event);
     selectedNodes.clear();
     selectedEdges.clear();
     renderer.refresh();
@@ -244,7 +238,10 @@ renderer.on("clickStage", ({ event }) => {
        }
        // console.log(onSegment_(p,p1,p_event))
        if(isOnLink){
-          selectedEdges.add(edge);
+         console.log(selectedEdges)
+          if(selectedEdges.size == 0){
+            selectedEdges.add(edge);
+          }
           // console.log(selectedEdges)
           renderer.refresh();
        }

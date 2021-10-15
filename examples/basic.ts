@@ -54,7 +54,7 @@ graph.edges().forEach((edge,index)=>{
 // const renderer = new Sigma(graph, container);
 
 const renderer = new Sigma(graph, container,{
-  defaultEdgeType: "arrow",
+  defaultEdgeType: "fast",
   // defaultEdgeColor: "#888",
   // nodeReducer,
   // edgeReducer,

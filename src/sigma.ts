@@ -604,8 +604,8 @@ export default class Sigma extends EventEmitter {
       //   3. We apply our defaults, while running some vital checks
 
       let data = graph.getEdgeAttributes(edge) as EdgeAttributes;
-      this.normalizationFunction.applyTo(data.p0);
-      this.normalizationFunction.applyTo(data.p1);
+      // this.normalizationFunction.applyTo(data.p0);
+      // this.normalizationFunction.applyTo(data.p1);
       // console.log(graph.getEdgeAttributes(edge))
       if (settings.edgeReducer) data = settings.edgeReducer(edge, data);
 

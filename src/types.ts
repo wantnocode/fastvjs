@@ -83,8 +83,8 @@ export interface EdgeAttributes {
   hidden: boolean;
   label: string;
   index:number;
-  p0:any;
-  p1:any;
+  // p0:any;
+  // p1:any;
 }
 
 // export interface NodeDisplayData extends Coordinates, DisplayData {
