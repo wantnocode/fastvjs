@@ -21,6 +21,65 @@ const container = document.getElementById("container");
 
 
 
+function onRect(p,p1,q){
+
+// 设矩形的左上角的点坐标为（x1, y1）,右下角的点坐标为（x2,y2），需要判断的点坐标为(x0, y0).
+// 判断点（x0, y0）是否在矩形内，只需要做如下判断：
+// if(x0 > x1 && x0 < x2 && y0 > y1 && y0 < y2)
+// {
+// 满足，则表示点在矩形范围内
+// }
+  // const thickness = data.size || 1,
+    var x1 = p.x,
+      y1 = p.y,
+      x2 = p1.x,
+      y2 = p1.y,
+      h = 0.2 / renderer.getCamera().ratio;
+    // h = 5
+    // 左右偏移 rect
+    var alpha= Math.atan((y2-y1)/(x2-x1));
+
+    var x3= x2 - Math.round(h*Math.sin(alpha));
+
+    var y3= y2 + Math.round(h*Math.cos(alpha));
+
+    var x4= x1 - Math.round(h*Math.sin(alpha));
+
+    var y4= y1 + Math.round(h*Math.cos(alpha));
+
+
+    var x3_ = x2 + Math.round(h*Math.sin(alpha));
+
+    var y3_ = y2 - Math.round(h*Math.cos(alpha));
+
+    var x4_ = x1 + Math.round(h*Math.sin(alpha));
+
+    var y4_ = y1 - Math.round(h*Math.cos(alpha));
+
+
+    function point(){
+     this.x=0;
+     this.y=0;
+    }
+
+    //计算一个点是否在多边形里,参数:点,多边形数组
+    function PointInPoly(pt, poly) { 
+        for (var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i) 
+            ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y)) 
+            && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x) 
+            && (c = !c); 
+        return c; 
+    }
+ 
+
+
+    var isInRect = PointInPoly(q,[p,p1,{x:x3,y:y3},{x:x4,y:y4}])|| PointInPoly(q,[p,p1,{x:x3_,y:y3_},{x:x4_,y:y4_}]);
+    // console.log(isInRect)
+    return isInRect
+}
+
+
+
 
 /*
 @events点击是否同线 
@@ -48,18 +107,18 @@ function onSegment (p1, p2, q, index){
 
 
 const graph = new MultiGraph();
-console.log(nodes)
+// console.log(nodes)
 nodes.map(node=>{
-// console.log(node.fill)
+// // console.log(node.fill)
 let node_ = node.attributes;
 graph.addNode(node.key,{
     x:node_.x * 1,
     y:node_.y * 1,
-    // color:node_.fill,
+    color:node_.fill,
     index:0,
     size:60,
-    // label:node_.text,
-    // icon:node_.icon
+    label:node_.text,
+    icon:node_.icon
   })
 })
 
@@ -191,7 +250,7 @@ renderer.on("clickNode", ({ node, captor, event }) => {
   完善多边点击
  */
 renderer.on("clickStage", ({ event }) => {
-  console.log("Clicking the stage.", event);
+  // console.log("Clicking the stage.", event);
     selectedNodes.clear();
     selectedEdges.clear();
     renderer.refresh();
@@ -208,9 +267,10 @@ renderer.on("clickStage", ({ event }) => {
        let p_event = event;
        let index = graph.getEdgeAttribute(edge, 'index');
        let isOnLink = false;
-
        if(index == 0){
-         isOnLink = onSegment(p,p1,p_event,index);
+         // console.log(onRect(p,p1,p_event))
+         // isOnLink =  onSegment(p,p1,p_event,index);
+         isOnLink = onRect(p,p1,p_event);
          // console.log(isOnLink)
        }else{
          
@@ -238,7 +298,7 @@ renderer.on("clickStage", ({ event }) => {
        }
        // console.log(onSegment_(p,p1,p_event))
        if(isOnLink){
-         console.log(selectedEdges)
+         // console.log(selectedEdges)
           if(selectedEdges.size == 0){
             selectedEdges.add(edge);
           }
@@ -278,7 +338,7 @@ renderer.on("clickStage", ({ event }) => {
 
  */
 const camera = renderer.getCamera();
-// console.log(camera.ratio)
+console.log(camera.ratio)
 
 const captor = renderer.getMouseCaptor();
 
@@ -378,7 +438,7 @@ captor.on("mousemove", (e) => {
 
   // graph.setNodeAttribute(draggedNode, "x", pos.x);
   // graph.setNodeAttribute(draggedNode, "y", pos.y);
-  setTimeout(function(){
+  // setTimeout(function(){
     window.requestAnimationFrame(function(){
     // console.log(e)
     if(!draggedNode) return;
@@ -387,7 +447,7 @@ captor.on("mousemove", (e) => {
     graph.setNodeAttribute(draggedNode, "x", pos.x);
     graph.setNodeAttribute(draggedNode, "y", pos.y);
   })
-  })
+  // })
 });
 
 
@@ -403,7 +463,7 @@ captor.on("mousedown", (event) => {
     down_x = event.x;
     down_y = event.y;
     
-  },300)
+  },1000)
 });
 
 globalize({ graph, renderer });
